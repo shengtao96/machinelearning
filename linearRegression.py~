@@ -23,12 +23,13 @@ def featureNormalize(dataMat):
 	return normDataMat, meanData, stdData
 
 def gradientDescent(dataMat, labelMat, alpha, num_iters = 10000):
+	m = shape(dataMat)[0]
 	numFeat = shape(dataMat)[1]
 	theta = mat(zeros((numFeat, 1)))
 	for i in range(num_iters):
 		tmp = dataMat * theta - labelMat
 		tmp = dataMat.T * tmp
-		theta = theta - alpha * tmp
+		theta = theta - alpha * tmp / m
 	return theta
 
 def normalEquation(dataMat, labelMat):
