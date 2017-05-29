@@ -1,9 +1,10 @@
+#coding:utf-8
 from numpy import *
 
 def loadDataSet(filename):
-	numFeat = len(open(filename).readline().strip().split(',')) - 1
-	dataSet = []; labelSet = []
 	fr = open(filename)
+	numFeat = len(fr.readline().strip().split(',')) - 1
+	dataSet = []; labelSet = []
 	for line in fr.readlines():
 		lineArr = []
 		lineArr.append(1.0)
@@ -23,22 +24,19 @@ def featureNormalize(dataMat):
 	return normDataMat, meanData, stdData
 
 def gradientDescent(dataMat, labelMat, alpha, num_iters = 10000):
-	m = shape(dataMat)[0]
-	numFeat = shape(dataMat)[1]
-	theta = mat(zeros((numFeat, 1)))
+	m, n = shape(dataMat)
+	theta = mat(zeros((n, 1)))
 	for i in range(num_iters):
 		tmp = dataMat * theta - labelMat
 		tmp = dataMat.T * tmp
-		theta = theta - alpha * tmp / m
+		theta = theta - alpha * tmp #这里不除以m，是因为没有必要，alpha可以直接作为步长来进行收敛，除以m的话有点多此一举
 	return theta
 
-def normalEquation(dataMat, labelMat):
+def equation(dataMat, labelMat):
 	return (dataMat.T * dataMat).I * dataMat.T * labelMat
 
 dataSet, labelSet = loadDataSet('D:\\machine-learning-ex1\\ex1\\ex1data2.txt')
-dataMat = mat(dataSet)
-labelMat = mat(labelSet)
-labelMat = labelMat.T
+dataMat = mat(dataSet); labelMat = mat(labelSet).T
 normDataMat, meanData, stdData = featureNormalize(dataMat)
 alpha = 0.01
 theta = gradientDescent(normDataMat, labelMat, alpha)
@@ -47,6 +45,7 @@ testX = [1, 1650, 3]
 testX = mat(testX)
 normTestX = (testX - meanData) / stdData
 print normTestX * theta
-thetaE = normalEquation(dataMat, labelMat)
+
+thetaE = equation(dataMat, labelMat)
 print thetaE
 print testX * thetaE
