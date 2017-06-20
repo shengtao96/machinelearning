@@ -94,7 +94,7 @@ def colicTest(filenameTrain, filenameTest):
 		for i in range(numFeat):
 			lineArr.append(float(curLine[i]))
 		lineMat = mat(lineArr)
-		print "%f, %d" % (sigmoid(lineMat * trainingTheta), int(curLine[-1]))
+#		print "%f, %d" % (sigmoid(lineMat * trainingTheta), int(curLine[-1]))
 		if round(sigmoid(lineMat * trainingTheta)) != float(curLine[-1]):
 			errorCount += 1
 	errorRate = float(errorCount) / numTestVec
@@ -113,14 +113,14 @@ dataSet, labelSet = loadDataSet('D:\\code\\testSet.txt')
 dataMat = mat(dataSet)
 labelMat = mat(labelSet).T
 alpha = 0.01
-#theta = gradAscent(dataMat, labelMat, alpha)
-#print theta
-#plotBestFit(theta.getA(), dataSet, labelSet)
-#theta0 = stocGradAscent0(dataMat, labelMat, 0.01)
-#print theta0
-#plotBestFit(theta0.getA(), dataSet, labelSet)
-#heta1 = stocGradAscent1(dataMat, labelMat)
-#print theta1
-#plotBestFit(theta1.getA(), dataSet, labelSet)
+theta = gradAscent(dataMat, labelMat, alpha)
+print theta
+plotBestFit(theta.getA(), dataSet, labelSet)
+theta0 = stocGradAscent0(dataMat, labelMat, 0.01)
+print theta0
+plotBestFit(theta0.getA(), dataSet, labelSet)
+heta1 = stocGradAscent1(dataMat, labelMat)
+print theta1
+plotBestFit(theta1.getA(), dataSet, labelSet)
 colicTest('D:\\code\\horseColicTraining.txt', 'D:\\code\\horseColicTest.txt')
-#multiTest('D:\\code\\horseColicTraining.txt', 'D:\\code\\horseColicTest.txt')
+multiTest('D:\\code\\horseColicTraining.txt', 'D:\\code\\horseColicTest.txt')
